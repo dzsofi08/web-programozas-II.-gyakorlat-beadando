@@ -1,0 +1,28 @@
+<%- include("partials/header") %>
+
+<div class="mx-auto max-w-md py-4">
+    <div class="card">
+        <div class="card-body sm:p-8">
+            <div class="mb-6 text-center">
+                <h1 class="text-xl font-semibold text-default mb-1">Regisztráció</h1>
+                <p class="text-sm text-subtle mb-0">Hozzon létre új fiókot a Budapesti Moziműsor oldalra.</p>
+            </div>
+            <form method="POST" action="/register" class="space-y-4">
+                <div class="form-field">
+                    <label for="username" class="form-label text-subtle">Felhasználónév (min. 3 karakter)</label>
+                    <input type="text" id="username" name="username" class="form-control" required minlength="3" placeholder="Válasszon felhasználónevet">
+                </div>
+                <div class="form-field">
+                    <label for="password" class="form-label text-subtle">Jelszó (min. 4 karakter)</label>
+                    <input type="password" id="password" name="password" class="form-control" required minlength="4" placeholder="Válasszon jelszót">
+                </div>
+                <button type="submit" class="btn btn-gradient w-full">Regisztráció</button>
+            </form>
+            <p class="mt-4 text-center text-sm text-subtle mb-0">
+                Már van fiókja? <a href="/login" class="link text-primary">Jelentkezzen be!</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<%- include("partials/footer") %>

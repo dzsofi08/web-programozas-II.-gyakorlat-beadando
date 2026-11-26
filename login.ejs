@@ -1,0 +1,28 @@
+<%- include("partials/header") %>
+
+<div class="mx-auto max-w-md py-4">
+    <div class="card">
+        <div class="card-body sm:p-8">
+            <div class="mb-6 text-center">
+                <h1 class="text-xl font-semibold text-default mb-1">Bejelentkezés</h1>
+                <p class="text-sm text-subtle mb-0">Lépjen be a fiókjába az üzenetek vagy az admin felület eléréséhez.</p>
+            </div>
+            <form method="POST" action="/login" class="space-y-4">
+                <div class="form-field">
+                    <label for="username" class="form-label text-subtle">Felhasználónév</label>
+                    <input type="text" id="username" name="username" class="form-control" required placeholder="Adja meg felhasználónevét">
+                </div>
+                <div class="form-field">
+                    <label for="password" class="form-label text-subtle">Jelszó</label>
+                    <input type="password" id="password" name="password" class="form-control" required placeholder="Adja meg jelszavát">
+                </div>
+                <button type="submit" class="btn btn-gradient w-full">Bejelentkezés</button>
+            </form>
+            <p class="mt-4 text-center text-sm text-subtle mb-0">
+                Még nincs fiókja? <a href="/register" class="link text-primary">Regisztráljon itt!</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<%- include("partials/footer") %>

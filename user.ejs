@@ -1,0 +1,11 @@
+<%- include("partials/header") %>
+
+<div class="card">
+    <div class="card-body">
+        <h1 class="text-xl font-semibold text-default mb-2">Felhasználói oldal</h1>
+        <p class="text-sm text-subtle mb-4">Üdvözöljük, <strong class="text-default"><%= user.username %></strong>! Bejelentkezett felhasználóként megtekintheti a beérkezett üzeneteket.</p>
+        <a href="/uzenetek" class="btn btn-gradient">Üzenetek megtekintése</a>
+    </div>
+</div>
+
+<%- include("partials/footer") %>
