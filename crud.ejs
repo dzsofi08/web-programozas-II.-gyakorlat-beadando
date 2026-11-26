@@ -1,0 +1,49 @@
+<%- include("partials/header") %>
+
+<div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+    <div>
+        <h1 class="text-2xl font-semibold text-default mb-1">Filmek kezelése (Admin CRUD)</h1>
+        <p class="text-sm text-subtle mb-0">Új filmek felvétele, meglévők módosítása és törlése.</p>
+    </div>
+    <a href="/crud/new" class="btn btn-gradient">+ Új film hozzáadása</a>
+</div>
+
+<div class="card">
+    <div class="mozi-table-wrap">
+        <table class="mozi-table">
+            <thead>
+                <tr>
+                    <th>ID (fkod)</th>
+                    <th>Film címe</th>
+                    <th>Műfaj</th>
+                    <th>Származás</th>
+                    <th>Szinkron</th>
+                    <th>Színes</th>
+                    <th>Hossz</th>
+                    <th>Műveletek</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% filmek.forEach(film => { %>
+                    <tr>
+                        <td><%= film.fkod %></td>
+                        <td><strong class="text-default"><%= film.filmcim %></strong></td>
+                        <td><span class="pill"><%= film.mufaj %></span></td>
+                        <td><%= film.szarmazas || "-" %></td>
+                        <td><%= film.szinkron || "-" %></td>
+                        <td><%= film.szines ? "Igen" : "Nem" %></td>
+                        <td><%= film.hossz %> perc</td>
+                        <td style="white-space: nowrap;">
+                            <a href="/crud/edit/<%= film._id %>" class="btn btn-secondary btn-sm">Szerkesztés</a>
+                            <form method="POST" action="/crud/delete/<%= film._id %>" style="display:inline;" onsubmit="return confirm('Biztosan törli a(z) <%= film.filmcim.replace(/'/g, '') %> című filmet?');">
+                                <button type="submit" class="btn btn-danger btn-sm">Törlés</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include("partials/footer") %>

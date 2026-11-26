@@ -1,0 +1,65 @@
+<%- include("partials/header") %>
+
+<div class="mx-auto max-w-xl">
+    <div class="card">
+        <div class="card-body sm:p-8">
+            <h1 class="text-2xl font-semibold text-default mb-5"><%= mode === 'create' ? 'Új film hozzáadása' : 'Film szerkesztése' %></h1>
+
+            <% if (errors && errors.length > 0) { %>
+                <div class="alert-box alert-error">
+                    <ul class="mb-0 ps-4">
+                        <% errors.forEach(err => { %>
+                            <li><%= err %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+            <% } %>
+
+            <form method="POST" action="<%= mode === 'create' ? '/crud/new' : '/crud/edit/' + film._id %>" class="space-y-4">
+                <% if (mode === 'create') { %>
+                    <div class="form-field">
+                        <label for="fkod" class="form-label text-subtle">Film azonosító (fkod) *</label>
+                        <input type="number" id="fkod" name="fkod" class="form-control" value="<%= film.fkod %>" required>
+                    </div>
+                <% } %>
+
+                <div class="form-field">
+                    <label for="filmcim" class="form-label text-subtle">Film címe *</label>
+                    <input type="text" id="filmcim" name="filmcim" class="form-control" value="<%= film.filmcim %>" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="mufaj" class="form-label text-subtle">Műfaj</label>
+                    <input type="text" id="mufaj" name="mufaj" class="form-control" value="<%= film.mufaj %>" placeholder="pl. dráma, vígjáték, thriller">
+                </div>
+
+                <div class="form-field">
+                    <label for="szarmazas" class="form-label text-subtle">Származás (ország)</label>
+                    <input type="text" id="szarmazas" name="szarmazas" class="form-control" value="<%= film.szarmazas %>" placeholder="pl. amerikai, magyar">
+                </div>
+
+                <div class="form-field">
+                    <label for="szinkron" class="form-label text-subtle">Szinkronizáltság</label>
+                    <input type="text" id="szinkron" name="szinkron" class="form-control" value="<%= film.szinkron %>" placeholder="pl. mb, fel">
+                </div>
+
+                <div class="form-field">
+                    <label for="hossz" class="form-label text-subtle">Vetítési idő (perc) *</label>
+                    <input type="number" id="hossz" name="hossz" class="form-control" value="<%= film.hossz %>" min="1" required>
+                </div>
+
+                <div class="form-check gap-2 text-sm">
+                    <input type="checkbox" class="form-check-input" id="szines" name="szines" <%= film.szines ? 'checked' : '' %>>
+                    <label for="szines" class="form-check-label text-subtle">Színes film</label>
+                </div>
+
+                <div class="flex gap-2 pt-2">
+                    <button type="submit" class="btn btn-gradient"><%= mode === 'create' ? 'Létrehozás' : 'Mentés' %></button>
+                    <a href="/crud" class="btn btn-secondary">Mégse</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include("partials/footer") %>
