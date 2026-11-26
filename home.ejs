@@ -1,0 +1,85 @@
+<%- include("partials/header") %>
+
+<div class="mb-8 flex flex-wrap items-center justify-between gap-4">
+    <div>
+        <h1 class="text-2xl font-semibold text-default mb-1">Budapesti Moziműsor</h1>
+        <p class="text-sm text-subtle mb-0">Fővárosi mozik heti műsora, statisztikái és adatbázisa egy helyen.</p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+        <a href="/adatbazis" class="btn btn-gradient">Műsor böngészése</a>
+        <a href="/diagram" class="btn btn-secondary">Diagramok</a>
+    </div>
+</div>
+
+
+<div class="grid grid-cols-1 gap-5 sm:grid-cols-3 mb-8">
+    <div class="card">
+        <div class="card-body">
+            <p class="text-xs text-subtle mb-2">Összes film az adatbázisban</p>
+            <div class="text-3xl font-bold text-default"><%= stats.filmCount %></div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <p class="text-xs text-subtle mb-2">Budapesti mozik száma</p>
+            <div class="text-3xl font-bold text-default"><%= stats.moziCount %></div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <p class="text-xs text-subtle mb-2">Heti vetítési helyszínek</p>
+            <div class="text-3xl font-bold text-default"><%= stats.helyCount %></div>
+        </div>
+    </div>
+</div>
+
+
+<h2 class="text-lg font-semibold text-default mb-4">Kiemelt, leghosszabb filmek a műsoron</h2>
+<div class="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3 mb-8">
+    <% if (featuredFilms && featuredFilms.length > 0) { %>
+        <% featuredFilms.forEach(film => { %>
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-base font-semibold text-default mb-1"><%= film.filmcim %></h3>
+                    <p class="text-xs text-subtle mb-3"><%= film.szarmazas || "Ismeretlen származás" %></p>
+                    <div>
+                        <span class="pill"><%= film.mufaj %></span>
+                        <span class="pill pill-cyan"><%= film.hossz %> perc</span>
+                        <span class="pill pill-cyan"><%= film.szines ? "Színes" : "Fekete-fehér" %></span>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <div class="card">
+            <div class="card-body">
+                <p class="text-sm text-subtle mb-0">Még nincsenek feltöltve adatok. Futtasd az <code>npm run seed</code> parancsot!</p>
+            </div>
+        </div>
+    <% } %>
+</div>
+
+
+<h2 class="text-lg font-semibold text-default mb-4">Az alkalmazás fő funkciói</h2>
+<div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="text-base font-semibold text-default mb-2">3 táblás adatbázis</h3>
+            <p class="text-sm text-subtle mb-0">A Film, Mozi és Hely gyűjtemények összekapcsolása Mongoose ODM segítségével, élő szűréssel.</p>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="text-base font-semibold text-default mb-2">Interaktív diagramok</h3>
+            <p class="text-sm text-subtle mb-0">Chart.js grafikonok a legnépszerűbb műfajokról és a legtöbb filmet vetítő budapesti mozikról.</p>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="text-base font-semibold text-default mb-2">Szerepkörök & CRUD</h3>
+            <p class="text-sm text-subtle mb-0">Bejelentkezett felhasználóknak üzenetek, adminisztrátoroknak teljes Film CRUD felület.</p>
+        </div>
+    </div>
+</div>
+
+<%- include("partials/footer") %>

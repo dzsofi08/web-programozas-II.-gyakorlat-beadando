@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="hu" class="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budapesti Moziműsor – Dashdark X</title>
+    <meta name="theme-color" content="#081028" />
+    <link rel="icon" type="image/svg+xml" href="/image/logo.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400..700&display=swap" />
+    <link rel="stylesheet" href="/css/dashdark.css" />
+    <link rel="stylesheet" href="/css/custom.css" />
+    <script defer src="/js/dashdark.js"></script>
+</head>
+<body>
+    <div class="mx-auto max-w-(--shell-width) lg:grid lg:grid-cols-[var(--sidebar-width)_minmax(0,1fr)]">
+        
+        <aside
+            class="offcanvas-lg offcanvas-start w-(--sidebar-width) border-e border-subtle bg-default lg:sticky lg:top-0 lg:z-10 lg:h-dvh"
+            tabindex="-1"
+            id="sidebar"
+            aria-label="Fő navigáció"
+        >
+            <div class="flex h-full flex-col overflow-x-hidden overflow-y-auto px-7 pt-9 pb-8">
+                <div class="flex h-7 items-center justify-between gap-3">
+                    <a href="/" class="flex items-center gap-2 text-xl leading-none font-semibold tracking-tight text-default no-underline">
+                        <img src="/image/logo.svg" alt="" width="27" height="27" class="shrink-0" />
+                        <span>MoziMűsor</span>
+                    </a>
+                    <button type="button" class="btn btn-icon -me-1.5 text-subtle hover:text-default lg:hidden" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Menü bezárása">
+                        ✕
+                    </button>
+                </div>
+
+                
+                <nav class="list-group mt-9 -mx-7">
+                    <a href="/" class="list-group-item list-group-item-action flex h-11.5 items-center gap-3 px-7 font-medium <%= currentPath === '/' ? 'active border-s-[3px] border-primary! text-primary!' : '' %>">
+                         <span>Főoldal</span>
+                    </a>
+                    <a href="/adatbazis" class="list-group-item list-group-item-action flex h-11.5 items-center gap-3 px-7 font-medium <%= currentPath === '/adatbazis' ? 'active border-s-[3px] border-primary! text-primary!' : '' %>">
+                         <span>Adatbázis</span>
+                    </a>
+                    <a href="/diagram" class="list-group-item list-group-item-action flex h-11.5 items-center gap-3 px-7 font-medium <%= currentPath === '/diagram' ? 'active border-s-[3px] border-primary! text-primary!' : '' %>">
+                         <span>Diagram</span>
+                    </a>
+                    <a href="/kapcsolat" class="list-group-item list-group-item-action flex h-11.5 items-center gap-3 px-7 font-medium <%= currentPath === '/kapcsolat' ? 'active border-s-[3px] border-primary! text-primary!' : '' %>">
+                         <span>Kapcsolat</span>
+                    </a>
+
+                    <% if (user) { %>
+                        <hr class="my-4 border-default" />
+                        <a href="/uzenetek" class="list-group-item list-group-item-action flex h-11.5 items-center gap-3 px-7 font-medium <%= currentPath === '/uzenetek' ? 'active border-s-[3px] border-primary! text-primary!' : '' %>">
+                             <span>Üzenetek</span>
+                        </a>
+                    <% } %>
+
+                    <% if (user && user.role === 'admin') { %>
+                        <a href="/crud" class="list-group-item list-group-item-action flex h-11.5 items-center gap-3 px-7 font-medium <%= currentPath.startsWith('/crud') ? 'active border-s-[3px] border-primary! text-primary!' : '' %>">
+                             <span>CRUD (Admin)</span>
+                        </a>
+                    <% } %>
+
+                    <hr class="my-4 border-default" />
+
+                    <% if (!user) { %>
+                        <a href="/login" class="list-group-item list-group-item-action flex h-11.5 items-center gap-3 px-7 font-medium <%= currentPath === '/login' ? 'active border-s-[3px] border-primary! text-primary!' : '' %>">
+                             <span>Bejelentkezés</span>
+                        </a>
+                        <a href="/register" class="list-group-item list-group-item-action flex h-11.5 items-center gap-3 px-7 font-medium <%= currentPath === '/register' ? 'active border-s-[3px] border-primary! text-primary!' : '' %>">
+                             <span>Regisztráció</span>
+                        </a>
+                    <% } else { %>
+                        <div class="px-7 py-2 flex items-center gap-2.5">
+                            <img src="/image/1.png" alt="" class="size-8 rounded-full shrink-0" />
+                            <div class="min-w-0 leading-tight">
+                                <span class="block text-sm font-medium text-default truncate"><%= user.username %></span>
+                                <span class="block text-xs text-subtle">Szerepkör: <%= user.role %></span>
+                            </div>
+                        </div>
+                        <a href="/logout" class="list-group-item list-group-item-action flex h-11.5 items-center gap-3 px-7 font-medium">
+                             <span>Kijelentkezés</span>
+                        </a>
+                    <% } %>
+                </nav>
+
+                <div class="mt-auto pt-8 text-xs leading-relaxed text-subtle">
+                    <p class="mb-1">Téma: <strong>Dashdark X</strong></p>
+                    <p class="mb-0">ThemeWagon / BRIX Templates</p>
+                </div>
+            </div>
+        </aside>
+
+        
+        <div class="min-w-0">
+            
+            <div class="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-subtle bg-default/90 px-4 backdrop-blur sm:px-6 lg:hidden">
+                <a href="/" class="flex items-center gap-2 text-lg font-semibold text-default no-underline">
+                    <img src="/image/logo.svg" alt="" width="24" height="24" />
+                    <span>MoziMűsor</span>
+                </a>
+                <button type="button" class="btn btn-icon -me-2 text-subtle hover:text-default" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar" aria-label="Menü megnyitása">
+                    ☰
+                </button>
+            </div>
+
+            <main class="px-4 pt-6 pb-12 sm:px-6 lg:px-10 lg:pt-10">
+                <% if (message) { %>
+                    <div class="alert-box alert-<%= messageType === 'error' ? 'error' : (messageType === 'success' ? 'success' : 'info') %>">
+                        <%= message %>
+                    </div>
+                <% } %>
