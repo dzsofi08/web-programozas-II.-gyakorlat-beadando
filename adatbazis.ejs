@@ -1,0 +1,116 @@
+<%- include("partials/header") %>
+
+<div class="mb-6">
+    <h1 class="text-2xl font-semibold text-default mb-1">Moziműsor adatbázis</h1>
+    <p class="text-sm text-subtle mb-0">A <strong>Film</strong>, <strong>Hely</strong> és <strong>Mozi</strong> táblák összekapcsolt adatai Mongoose ODM használatával.</p>
+</div>
+
+<div class="card mb-6">
+    <div class="card-body">
+        <form method="GET" action="/adatbazis" class="grid grid-cols-1 gap-4 sm:grid-cols-4 items-end">
+            <div>
+                <label for="q" class="form-label text-subtle">Keresés (cím / ország)</label>
+                <input type="text" id="q" name="q" class="form-control" value="<%= filters.q %>" placeholder="pl. Amelie, magyar...">
+            </div>
+            <div>
+                <label for="mufaj" class="form-label text-subtle">Műfaj</label>
+                <select id="mufaj" name="mufaj" class="form-control">
+                    <option value="">-- Minden műfaj --</option>
+                    <% mufajok.forEach(m => { %>
+                        <option value="<%= m %>" <%= filters.mufaj === m ? 'selected' : '' %>><%= m %></option>
+                    <% }) %>
+                </select>
+            </div>
+            <div>
+                <label for="mozi" class="form-label text-subtle">Mozi</label>
+                <select id="mozi" name="mozi" class="form-control">
+                    <option value="">-- Minden mozi --</option>
+                    <% mozik.forEach(m => { %>
+                        <option value="<%= m.moziazon %>" <%= String(filters.mozi) === String(m.moziazon) ? 'selected' : '' %>><%= m.mozinev %></option>
+                    <% }) %>
+                </select>
+            </div>
+            <div class="flex gap-2">
+                <button type="submit" class="btn btn-primary">Szűrés</button>
+                <a href="/adatbazis" class="btn btn-secondary">Alaphelyzet</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<p class="text-sm text-subtle mb-3">Találatok száma: <strong class="text-default"><%= musor.length %></strong> film</p>
+
+<div class="card mb-8">
+    <div class="mozi-table-wrap">
+        <table class="mozi-table">
+            <thead>
+                <tr>
+                    <th>Kód</th>
+                    <th>Film címe</th>
+                    <th>Műfaj</th>
+                    <th>Hossz</th>
+                    <th>Színes / Szinkron</th>
+                    <th>Származás</th>
+                    <th>Hol vetítik (Mozi + Hely)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (musor.length === 0) { %>
+                    <tr><td colspan="7">Nincs a szűrésnek megfelelő találat.</td></tr>
+                <% } %>
+                <% musor.forEach(film => { %>
+                    <tr>
+                        <td><%= film.fkod %></td>
+                        <td><strong class="text-default"><%= film.filmcim %></strong></td>
+                        <td><span class="pill"><%= film.mufaj %></span></td>
+                        <td><%= film.hossz %> perc</td>
+                        <td>
+                            <%= film.szines ? "Színes" : "Fekete-fehér" %>
+                            <% if (film.szinkron) { %> / <em><%= film.szinkron %></em><% } %>
+                        </td>
+                        <td><%= film.szarmazas || "-" %></td>
+                        <td>
+                            <% if (film.mozik.length > 0) { %>
+                                <% film.mozik.forEach(m => { %>
+                                    <span class="pill pill-cyan"><%= m.mozinev %></span>
+                                <% }) %>
+                            <% } else { %>
+                                <span class="text-subtle">Nincs aktív vetítés</span>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<h2 class="text-lg font-semibold text-default mb-4">Budapesti mozik listája (<%= mozik.length %> db)</h2>
+<div class="card">
+    <div class="mozi-table-wrap">
+        <table class="mozi-table">
+            <thead>
+                <tr>
+                    <th>Azonosító</th>
+                    <th>Mozi neve</th>
+                    <th>Irányítószám</th>
+                    <th>Cím</th>
+                    <th>Telefon</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% mozik.forEach(m => { %>
+                    <tr>
+                        <td><%= m.moziazon %></td>
+                        <td><strong class="text-default"><%= m.mozinev %></strong></td>
+                        <td><%= m.irszam %></td>
+                        <td><%= m.cim %></td>
+                        <td><%= m.telefon || "-" %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include("partials/footer") %>

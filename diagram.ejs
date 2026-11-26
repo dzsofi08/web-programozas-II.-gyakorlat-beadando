@@ -1,0 +1,82 @@
+<%- include("partials/header") %>
+
+<div class="mb-6">
+    <h1 class="text-2xl font-semibold text-default mb-1">Adatbázis statisztikák</h1>
+    <p class="text-sm text-subtle mb-0">Élő adatvizualizáció a MongoDB adatbázisból a <strong>Chart.js</strong> könyvtárral.</p>
+</div>
+
+<div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="text-base font-semibold text-default mb-4">Top 10 műfaj (filmek száma)</h2>
+            <div class="chart-box">
+                <canvas id="genreChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h2 class="text-base font-semibold text-default mb-4">Top 10 mozi (vetített filmek száma)</h2>
+            <div class="chart-box">
+                <canvas id="cinemaChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="chartData" type="application/json"><%- JSON.stringify({ genreData, cinemaData }) %></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const payload = JSON.parse(document.getElementById("chartData").textContent);
+
+    Chart.defaults.color = "#aeb9e1";
+    Chart.defaults.borderColor = "rgba(174, 185, 225, 0.14)";
+
+    new Chart(document.getElementById("genreChart"), {
+        type: "bar",
+        data: {
+            labels: payload.genreData.labels,
+            datasets: [{
+                label: "Filmek száma (db)",
+                data: payload.genreData.counts,
+                backgroundColor: "rgba(203, 60, 255, 0.72)",
+                borderColor: "#cb3cff",
+                borderWidth: 1,
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, ticks: { precision: 0 } }
+            }
+        }
+    });
+
+    new Chart(document.getElementById("cinemaChart"), {
+        type: "bar",
+        data: {
+            labels: payload.cinemaData.labels,
+            datasets: [{
+                label: "Vetített filmek (db)",
+                data: payload.cinemaData.counts,
+                backgroundColor: "rgba(0, 194, 255, 0.72)",
+                borderColor: "#00c2ff",
+                borderWidth: 1,
+                borderRadius: 6
+            }]
+        },
+        options: {
+            indexAxis: "y",
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: { beginAtZero: true, ticks: { precision: 0 } }
+            }
+        }
+    });
+</script>
+
+<%- include("partials/footer") %>
